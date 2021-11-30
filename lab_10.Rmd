@@ -42,6 +42,37 @@ praise("Holy ${creating}, Batman - this code is ${ADJECTIVE}!")
 
 Use cowsay::say() to make a character say something to you
 
+## paletteer to access thousands of color palettes
 
+```{r}
+storms %>% 
+  group_by(name) %>% 
+  summarize(min_pressure = min(pressure, na.rm = TRUE)) %>% 
+  slice_min(n = 10, min_pressure) %>% 
+  ggplot(aes(x = min_pressure, y = name)) +
+  geom_col(aes(fill = name)) +
+  scale_fill_paletteer_d("beyonce::X120")
+```
 
+## one spatial data example
+
+```{r}
+vegetation <- read_sf("doc.kml") %>% 
+  select(Name) %>% 
+  clean_names()
+
+ggplot(data = vegetation) +
+  geom_sf(aes(fill = name), color = NA) +
+  theme_minimal() +
+  scale_fill_paletteer_d("ggsci::springfield_simpsons") +
+  labs(title = "Jordana Basin LTER Vegetation")
+
+# update theme to theme_minimal
+# fill color change based on the vegetation
+# color of line to NA (color = NA)
+```
+
+```{r}
+ggsave(filename = "my_awesome_map.jpg", width = 8, height = 5)
+```
 
